@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">execNative</string>
+    <string name="btnCmd">My Command</string>
+</resources>
