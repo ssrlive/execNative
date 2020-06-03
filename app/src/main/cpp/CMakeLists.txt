@@ -44,9 +44,7 @@ target_link_libraries( # Specifies the target library.
         ${log-lib})
 
 
-# https://blog.csdn.net/yf210yf/article/details/12071063
-# https://stackoverflow.com/a/38930608/2193455
-
-set(EXECUTABLE_OUTPUT_PATH      "${CMAKE_CURRENT_SOURCE_DIR}/../assets/${ANDROID_ABI}")
-
 add_executable( mycommand mycommand.c )
+
+# https://cloud.tencent.com/developer/ask/93388
+set_target_properties( mycommand PROPERTIES PREFIX "lib" SUFFIX ".so" )

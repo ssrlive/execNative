@@ -46,25 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void runApp() {
         try {
-            String cmdName = "mycommand";
-
-            String assetPath;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                assetPath = Build.SUPPORTED_ABIS[0];
-            } else {
-                assetPath = Build.CPU_ABI; // noinspection deprecation
-            }
-            assetPath = assetPath + "/" + cmdName;
-
-            Context context = getApplicationContext();
-            String exePath = context.getFilesDir() + "/" + cmdName;
-
-            copyBigDataToSD(assetPath, exePath);
-
-            File exe_file = new File(exePath);
-            exe_file.setExecutable(true, true);
-
-            execCmd(exePath);
+            execCmd(getApplicationInfo().nativeLibraryDir + "/libmycommand.so");
         } catch (IOException e1) {
             e1.printStackTrace();
         }
