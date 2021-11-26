@@ -7,6 +7,8 @@ public class NativeWrapper {
         System.loadLibrary("mycommand2");
     }
 
+    public static native String stringFromJNI();
+
     public static native int runAppNative(ArrayList<String> cmd);
     public static native int stopAppNative();
 }

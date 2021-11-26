@@ -22,11 +22,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
-    }
-
     class MyThread extends Thread {
         @Override
         public void run() {
@@ -60,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Example of a call to a native method
         TextView tv = findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
+        tv.setText(NativeWrapper.stringFromJNI());
 
         Button btn = findViewById(R.id.btnCmd);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -131,10 +126,4 @@ public class MainActivity extends AppCompatActivity {
         myOutput.flush();
         myOutput.close();
     }
-
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    public native String stringFromJNI();
 }

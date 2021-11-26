@@ -4,9 +4,6 @@ project(execNative)
 
 find_library( log-lib log)
 
-add_library( native-lib SHARED native-lib.c)
-target_link_libraries( native-lib ${log-lib})
-
 add_executable( mycommand mycommand.c )
 # https://cloud.tencent.com/developer/ask/93388
 set_target_properties( mycommand PROPERTIES PREFIX "lib" SUFFIX ".so" )
