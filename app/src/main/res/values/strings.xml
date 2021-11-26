@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">execNative</string>
     <string name="btnCmd">My Command</string>
+    <string name="run_as_a_thread">Run As a Thread</string>
 </resources>

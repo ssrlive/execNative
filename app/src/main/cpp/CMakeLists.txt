@@ -10,3 +10,5 @@ target_link_libraries( native-lib ${log-lib})
 add_executable( mycommand mycommand.c )
 # https://cloud.tencent.com/developer/ask/93388
 set_target_properties( mycommand PROPERTIES PREFIX "lib" SUFFIX ".so" )
+
+add_library( mycommand2 SHARED mycommand.c )

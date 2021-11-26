@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +26,32 @@ public class MainActivity extends AppCompatActivity {
     static {
         System.loadLibrary("native-lib");
     }
+
+    class MyThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+
+            ArrayList<String> cmd = new ArrayList<String>();
+            cmd.add("appnamename");
+            cmd.add("sdfsdfsdf");
+            cmd.add("--help");
+            cmd.add("sdfsdf sdf");
+            cmd.add("-c");
+            cmd.add("99");
+            cmd.add("--deadloop");
+
+            NativeWrapper.runAppNative(cmd);
+        }
+
+        @Override
+        public void destroy() {
+            // super.destroy();
+            NativeWrapper.stopAppNative();
+        }
+    }
+
+    private MyThread myThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +69,29 @@ public class MainActivity extends AppCompatActivity {
                 runApp();
             }
         });
+
+        Button btnRunThread = findViewById(R.id.btnRunThread);
+        btnRunThread.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myThread!=null && myThread.isAlive()) {
+                    myThread.destroy();
+                    myThread = null;
+                } else {
+                    myThread = new MyThread();
+                    myThread.start();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (myThread!=null && myThread.isAlive()) {
+            myThread.destroy();
+            myThread = null;
+        }
     }
 
     private void runApp() {
