@@ -9,23 +9,32 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-volatile bool exitFlag = true;
+volatile bool exit_dead_loop = true;
 
-int main(int argc, const char *argv[]) {
-    for (int index = 0; index < argc; ++index) {
+void dead_loop_impl(int argc, const char *argv[]) {
+#if defined(__WAIT_DEBUGGER_ATTACH__)
+    int index = 0;
+    for (index = 0; index < argc; ++index) {
         if ( strcmp(argv[index], "--deadloop") == 0) {
-            exitFlag = false;
+            exit_dead_loop = false;
             break;
         }
     }
-
-    printf("My Command! argc = %d\n", argc);
     do {
-        if (exitFlag == false) {
-            sleep(1); // real tasks
+        // change the exit_dead_loop manually in debugger by you. (lldb) expr exit_dead_loop = 1
+        if (exit_dead_loop == false) {
+            sleep(1); // CPU yeild
         }
-    } while (exitFlag == false);
-    exitFlag = true;
+    } while (exit_dead_loop == false);
+    exit_dead_loop = true;
+#else
+    (void)argc; (void)argv;
+#endif
+}
+
+int main(int argc, const char *argv[]) {
+    dead_loop_impl(argc, argv);
+    printf("My Command! argc = %d\n", argc);
     return 0;
 }
 
@@ -92,7 +101,7 @@ Java_com_ssrlive_execnative_NativeWrapper_runAppNative(JNIEnv *env, jclass clazz
 
 JNIEXPORT jint JNICALL
 Java_com_ssrlive_execnative_NativeWrapper_stopAppNative(JNIEnv *env, jclass clazz) {
-    exitFlag = true;
+    exit_dead_loop = true;
     return 0;
 }
 
