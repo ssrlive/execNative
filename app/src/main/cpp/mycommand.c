@@ -11,11 +11,11 @@
 
 volatile bool exit_dead_loop = true;
 
-void dead_loop_impl(int argc, const char *argv[]) {
+void dead_loop_impl(int argc, char * const argv[]) {
 #if defined(__WAIT_DEBUGGER_ATTACH__)
     int index = 0;
     for (index = 0; index < argc; ++index) {
-        if ( strcmp(argv[index], "--deadloop") == 0) {
+        if ( strcmp(argv[index], "--deadloop") == 0 ) {
             exit_dead_loop = false;
             break;
         }
@@ -32,7 +32,7 @@ void dead_loop_impl(int argc, const char *argv[]) {
 #endif
 }
 
-int main(int argc, const char *argv[]) {
+int main(int argc, char *const argv[]) {
     dead_loop_impl(argc, argv);
     printf("My Command! argc = %d\n", argc);
     return 0;
